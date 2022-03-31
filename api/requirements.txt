@@ -1,0 +1,11 @@
+fastapi==0.75.0
+uvicorn==0.17.5
+h5py==3.6.0
+tensorflow==2.8.0
+numpy
+matplotlib==3.5.1
+pandas
+gunicorn==20.1.0
+torch
+torchvision
+boto3

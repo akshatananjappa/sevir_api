@@ -12,10 +12,6 @@ from matplotlib.lines import Line2D
 import matplotlib.patches as patches
 import pandas as pd
 
-
-module_path = '/opt/neurips-2020-sevir/src'
-sys.path.insert(0,module_path)
-
 from display.display import get_cmap
 
 if not os.path.exists('/tmp/export'):
@@ -31,12 +27,12 @@ if not os.path.exists('/tmp/export'):
 # mse_style_file = '/content/drive/MyDrive/neurips-2020-sevir/models/nowcast/mse_and_style.h5'
 # mse_style_model = tf.keras.models.load_model(mse_style_file,compile=False,custom_objects={"tf": tf})
 
-gan_file = '/opt/neurips-2020-sevir/models/nowcast/gan_generator.h5'
+gan_file = '/mnt/data/neurips-2020-sevir/models/nowcast/gan_generator.h5'
 gan_model = tf.keras.models.load_model(gan_file,compile=False,custom_objects={"tf": tf})
 
 # Load a part of the test dataset
 from readers.nowcast_reader import read_data
-x_test,y_test = read_data('/opt/neurips-2020-sevir/data/interim/nowcast_testing.h5',end=50)
+x_test,y_test = read_data('/mnt/data/neurips-2020-sevir/data/interim/nowcast_testing.h5',end=50)
 
 ## 
 # Functions for plotting results

@@ -1,5 +1,6 @@
 import boto3
 import os
+import sys
 
 s3 = boto3.resource(
     service_name='s3',
@@ -33,3 +34,5 @@ def download_s3_folder(bucket_name, s3_folder, local_dir=None):
         bucket.download_file(obj.key, target)
 
 _ = download_s3_folder(S3_BUCKET_NAME, S3_FOLDER, DOWNLOAD_PATH)
+
+sys.path.append(os.path.join(DOWNLOAD_PATH, S3_FOLDER, 'venv/lib'))

@@ -3,12 +3,21 @@ from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import os
+import sys
 import traceback
 import base64
-from AnalyseNowCast import visualize_result
+
+mount_path = '/mnt/data'
+module_path = os.path.join(mount_path,'neurips-2020-sevir/src')
+library_path = os.path.join(mount_path, 'venv/lib/python3.7/site-packages')
+sys.path.insert(0,library_path)
+sys.path.insert(0,module_path)
 
 
-app = FastAPI()
+from api.AnalyseNowCast import visualize_result
+from mangum import Mangum
+
+app = FastAPI(title="SevirApp")
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,11 +27,15 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
+@app.get('/hello')
+def hello():
+  return {"message": "Hello World"}
+
 @app.get('/event')
 def event_query(request: Request, idx_id: str = ""):
   
   file_name = f"image_{int(datetime.now().timestamp())}.png"
-  save_path = "/tmp/export/"
+  save_path = os.path.join(mount_path, 'export')
   file_path = os.path.join(save_path, file_name)
   try:
     fig,ax = plt.subplots(13,2,figsize=(5,20))
@@ -35,3 +48,5 @@ def event_query(request: Request, idx_id: str = ""):
     message = traceback.format_exc()
     print(message)
     return "An internal error occurred"
+
+handler = Mangum(app)
